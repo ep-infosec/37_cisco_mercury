@@ -1,0 +1,54 @@
+# Makefile_helper.mk.in
+#
+# This file is auto-converted to Makefile_helper.mk by ./configure
+#
+
+# definitions for colorized output
+COLOR_RED    = "\033[0;31m"
+COLOR_GREEN  = "\033[0;32m"
+COLOR_YELLOW = "\033[0;33m"
+COLOR_OFF    = "\033[0m"
+
+# The variable use_no_gnu_unique controls the compiler option with the
+# corresponding name, which is needed to compile the libmerc.so shared
+# object library
+#
+use_no_gnu_unique = @USE_NO_GNU_UNIQUE@
+
+# The variable use_fsanitize controls the compiler option with the
+# corresponding name, which is used when present in some build targets
+#
+use_fsanitize = @USE_FSANITIZE@
+
+CXX     = @CXX@
+CC      = @CC@
+CFLAGS  = --std=c++17
+CFLAGS += -O3
+# CFLAGS += -march=x86-64 -mtune=generic
+CFLAGS += -Wall -Wextra -Wno-deprecated $(CDEFS) $(MSV)
+CFLAGS += -Wno-missing-braces # this flag squelches a gcc bug that causes a spurious warning
+CFLAGS += -Wno-narrowing      # needed for oid.h to suppress spurious (un)signed char error
+
+# extra flags
+CFLAGS += -fno-rtti
+CFLAGS += -Wformat
+CLFAGS += -Wformat-security
+CFLAGS += -Wno-deprecated-declarations
+CFLAGS += -Wno-long-long
+CFLAGS += -Wmissing-noreturn
+CFLAGS += -Wunreachable-code
+CFLAGS += -fvisibility=hidden
+CFLAGS += -DNDEBUG
+# CFLAGS += -g
+# CFLAGS += -ggdb
+CFLAGS += -fno-builtin-malloc
+CFLAGS += -fno-builtin-calloc
+CFLAGS += -fno-builtin-realloc
+CFLAGS += -fno-builtin-free
+ifeq ($(use_no_gnu_unique),yes)
+CFLAGS += -fno-gnu-unique
+endif
+
+CFLAGS += $(OPTFLAGS)
+
+# EOF
